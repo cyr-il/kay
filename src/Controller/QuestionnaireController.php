@@ -30,6 +30,7 @@ class QuestionnaireController extends AbstractController
     public function addQuestionnaire(EntityManagerInterface $em, Request $request, FileUploader $fileUploader): Response
     {
         $questionnaire = new Questionnaire;
+        $questionnaire->setLastUpdated(new \DateTime('now'));
         $form = $this->createForm(QuestionnaireFormType::class, $questionnaire);
         $form->handleRequest($request);
 

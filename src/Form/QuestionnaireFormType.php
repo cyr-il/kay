@@ -19,6 +19,9 @@ class QuestionnaireFormType extends AbstractType
             ->add('xliff')
             ->add('json')
             ->add('spec')
+            ->add('version')
+            ->add('author')
+            ->add('device')
             ->add('reviewed')
             ->add('brochure', FileType::class, [
                 'label' => 'Brochure (PDF file)',
@@ -34,7 +37,6 @@ class QuestionnaireFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
@@ -43,6 +45,7 @@ class QuestionnaireFormType extends AbstractType
                     ])
                 ]
                     ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\QuestionnaireRepository;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Form\FormTypeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +35,18 @@ class Questionnaire
 
     #[ORM\Column]
     private ?bool $reviewed = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $version = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $author = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $device = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $lastUpdated = null;
 
     public function getId(): ?int
     {
@@ -120,6 +133,54 @@ class Questionnaire
     public function setBrochureFilename($brochureFilename)
     {
         $this->brochureFilename = $brochureFilename;
+
+        return $this;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getDevice(): ?string
+    {
+        return $this->device;
+    }
+
+    public function setDevice(string $device): self
+    {
+        $this->device = $device;
+
+        return $this;
+    }
+
+    public function getLastUpdated(): ?\DateTimeInterface
+    {
+        return $this->lastUpdated;
+    }
+
+    public function setLastUpdated(\DateTimeInterface $lastUpdated): self
+    {
+        $this->lastUpdated = $lastUpdated;
 
         return $this;
     }

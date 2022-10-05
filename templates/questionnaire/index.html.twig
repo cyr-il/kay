@@ -3,7 +3,7 @@
 {% block title %}Hello QuestionnaireController!{% endblock %}
 
 {% block body %}
-<style>
+{# <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
@@ -62,5 +62,28 @@
     </thead>
     {% endfor %}
     </table>
-</div>
+</div> #}
+{% for questionnaire in questionnaires %}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{questionnaire.name}}</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="{{questionnaire.screens}}"></a></li>
+            <li class="list-group-item"><a href="{{questionnaire.xliff}}">xliff for {{questionnaire.name}}</a></li>
+            <li class="list-group-item"><a href="{{questionnaire.json}}">json for {{questionnaire.name}}</a></li>
+            <li class="list-group-item"><a href="{{questionnaire.spec}}">spec for {{questionnaire.name}}</a></li>
+            <li class="list-group-item">Version : {{questionnaire.version}}</li>
+            <li class="list-group-item">Author : {{questionnaire.author}}</li>
+            <li class="list-group-item">Device : {{questionnaire.device}}</li>
+
+        </ul>
+        <div class="card-body">
+            <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" download>Download technical all technical files</a>
+            <a href="#" class="card-link">View screenshots</a>
+        </div>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+{% endfor %}
 {% endblock %}
