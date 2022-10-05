@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello QuestionnaireController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Forms list</h1>
+    {% if app.user %}
+        <div class="d-grid gap-2 d-md-block">
+            <button type="submit" class="btn btn-primary btn-block mb-3"><a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a></button>
+            <button type="submit" class="btn btn-success btn-block mb-3"><a class="nav-link" href="{{path('app_addquestionnaire')}}">Ajouter un questionnaire</a></button>
+        </div>
+    {% else %}
+        <a class="nav-link" href="{{path('app_login')}}"><button type="submit" class="btn btn-primary btn-block mb-3">Connexion</button></a>
+    {% endif %}
+    
+    <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-1lax{text-align:center;vertical-align:top}
+    </style>
+    <table class="tg">
+    <thead>
+        <tr>
+            <td class="tg-0lax"><b>Questionnaire name</td>
+            <td class="tg-0lax"><b>Link to the screenshots</b></td>
+            <td class="tg-0lax"><b>Link to the xliffs</b></td>
+            <td class="tg-0lax"><b>Link to the layout file</b></td>
+            <td class="tg-0lax"><b>Link to the design specs</b></td>
+            <td class="tg-0lax"><b>PDF preview</b></td>
+            <td class="tg-0lax"><b>Has it been reviewed ?</b></td>
+        </tr>
+    </thead>
+    {% for questionnaire in questionnaires %}
+    <thead>
+        <tr>
+            <td class="tg-0lax">{{questionnaire.name}}</td>
+            <td class="tg-0lax"><a href="{{questionnaire.screens}}"></a></td>
+            <td class="tg-0lax"><a href="{{questionnaire.xliff}}">xliff for {{questionnaire.name}}</a></td>
+            <td class="tg-0lax"><a href="{{questionnaire.json}}">json for {{questionnaire.name}}</a></td>
+            <td class="tg-0lax"><a href="{{questionnaire.spec}}">spec for {{questionnaire.name}}</a></td>
+            <td class="tg-0lax"><a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" download >View questionnaire (PDF)</a></td>              
+           
+            {% if questionnaire.reviewed == 0 %}
+                <td class="tg-0lax">no</td>
+            {% else %}
+                <td class="tg-0lax">yes</td>
+            {% endif %}
+            {% if app.user %}
+                <td class="tg-0lax"><button type="submit" class="btn btn-warning btn-block mb-3"><a class="nav-link" href="{{path('app_editquestionnaire', {id:questionnaire.id})}}">Edit</a></button></td>
+                <td class="tg-0lax"><button type="submit" class="btn btn-danger btn-block mb-3"><a class="nav-link" href="{{path('app_deletequestionnaire', {id:questionnaire.id})}}">Delete</a></button></td>
+            {% endif %}
+        </tr>
+    </thead>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

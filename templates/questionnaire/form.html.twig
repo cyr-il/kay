@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+{% form_theme questionnaireForm 'bootstrap_5_layout.html.twig' %}
+{% block body %}
+<div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+        <h1 class="text-center my-5">Add a questionnaire</h1>
+        {{ form_start(questionnaireForm) }}
+            {{ form_row(questionnaireForm.name) }}
+            {{ form_row(questionnaireForm.screens) }}
+            {{ form_row(questionnaireForm.xliff) }}
+            {{ form_row(questionnaireForm.json) }}
+            {{ form_row(questionnaireForm.spec) }}
+            {{ form_row(questionnaireForm.reviewed) }}
+            {{ form_row(questionnaireForm.brochure) }}
+            <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+        {{ form_end(questionnaireForm) }}
+    </div>
+</div>
+{% endblock %}
