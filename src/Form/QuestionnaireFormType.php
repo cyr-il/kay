@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Questionnaire;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,8 +22,24 @@ class QuestionnaireFormType extends AbstractType
             ->add('spec')
             ->add('version')
             ->add('author')
-            ->add('device')
-            ->add('reviewed')
+            ->add('device', ChoiceType::class, array(
+                'choices'=>array(
+                    'SM-T225'=>'SM-T225',
+                    'SM-T295'=>'SM-T295',
+                    'SM-T515'=>'SM-T515',
+                    'SM-T505'=>'SM-T505',
+                    'SM-X205'=>'SM-X205',
+                    'Xcover 4S'=>'Xcover 4S'
+                )
+            ))
+            ->add('isreviewed', ChoiceType::class, array(
+                'label'=>'Is the questionnaire reviewed ?',
+                'choices'=>array(
+                    'Reviewed'=>'Reviewed',
+                    'Draft'=>'Draft',
+                    'In progress'=>'In progress'
+                )
+            ))
             ->add('brochure', FileType::class, [
                 'label' => 'Brochure (PDF file)',
 

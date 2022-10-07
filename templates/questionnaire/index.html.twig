@@ -1,89 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello QuestionnaireController!{% endblock %}
+{% block title %}Forms library{% endblock %}
 
 {% block body %}
-{# <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<header class="p-3 mb-3 border-bottom"style="background-color:#029db3">
+    <div class="container" style="background-color:#029db3">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
 
-<div class="example-wrapper">
-    <h1>Forms list</h1>
-    {% if app.user %}
-        <div class="d-grid gap-2 d-md-block">
-            <button type="submit" class="btn btn-primary btn-block mb-3"><a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a></button>
-            <button type="submit" class="btn btn-success btn-block mb-3"><a class="nav-link" href="{{path('app_addquestionnaire')}}">Ajouter un questionnaire</a></button>
-        </div>
-    {% else %}
-        <a class="nav-link" href="{{path('app_login')}}"><button type="submit" class="btn btn-primary btn-block mb-3">Connexion</button></a>
-    {% endif %}
-    
-    <style type="text/css">
-    .tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-    overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg .tg-1lax{text-align:center;vertical-align:top}
-    </style>
-    <table class="tg">
-    <thead>
-        <tr>
-            <td class="tg-0lax"><b>Questionnaire name</td>
-            <td class="tg-0lax"><b>Link to the screenshots</b></td>
-            <td class="tg-0lax"><b>Link to the xliffs</b></td>
-            <td class="tg-0lax"><b>Link to the layout file</b></td>
-            <td class="tg-0lax"><b>Link to the design specs</b></td>
-            <td class="tg-0lax"><b>PDF preview</b></td>
-            <td class="tg-0lax"><b>Has it been reviewed ?</b></td>
-        </tr>
-    </thead>
-    {% for questionnaire in questionnaires %}
-    <thead>
-        <tr>
-            <td class="tg-0lax">{{questionnaire.name}}</td>
-            <td class="tg-0lax"><a href="{{questionnaire.screens}}"></a></td>
-            <td class="tg-0lax"><a href="{{questionnaire.xliff}}">xliff for {{questionnaire.name}}</a></td>
-            <td class="tg-0lax"><a href="{{questionnaire.json}}">json for {{questionnaire.name}}</a></td>
-            <td class="tg-0lax"><a href="{{questionnaire.spec}}">spec for {{questionnaire.name}}</a></td>
-            <td class="tg-0lax"><a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" download >View questionnaire (PDF)</a></td>              
-           
-            {% if questionnaire.reviewed == 0 %}
-                <td class="tg-0lax">no</td>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark">Forms list</a></li>
+           {% if app.user %}
+            <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
+            <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
             {% else %}
-                <td class="tg-0lax">yes</td>
+            <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
             {% endif %}
-            {% if app.user %}
-                <td class="tg-0lax"><button type="submit" class="btn btn-warning btn-block mb-3"><a class="nav-link" href="{{path('app_editquestionnaire', {id:questionnaire.id})}}">Edit</a></button></td>
-                <td class="tg-0lax"><button type="submit" class="btn btn-danger btn-block mb-3"><a class="nav-link" href="{{path('app_deletequestionnaire', {id:questionnaire.id})}}">Delete</a></button></td>
-            {% endif %}
-        </tr>
-    </thead>
-    {% endfor %}
-    </table>
-</div> #}
-{% for questionnaire in questionnaires %}
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">{{questionnaire.name}}</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="{{questionnaire.screens}}"></a></li>
-            <li class="list-group-item"><a href="{{questionnaire.xliff}}">xliff for {{questionnaire.name}}</a></li>
-            <li class="list-group-item"><a href="{{questionnaire.json}}">json for {{questionnaire.name}}</a></li>
-            <li class="list-group-item"><a href="{{questionnaire.spec}}">spec for {{questionnaire.name}}</a></li>
-            <li class="list-group-item">Version : {{questionnaire.version}}</li>
-            <li class="list-group-item">Author : {{questionnaire.author}}</li>
-            <li class="list-group-item">Device : {{questionnaire.device}}</li>
 
         </ul>
-        <div class="card-body">
-            <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" download>Download technical all technical files</a>
-            <a href="#" class="card-link">View screenshots</a>
-        </div>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+      </div>
     </div>
-{% endfor %}
+  </header>
+{% if questionnaires|length > 0 %}
+<div class="card-group">
+    {% for questionnaire in questionnaires %}
+    <div class="row">
+        <div class="col">
+            <div class="card mb-3" style="max-width: 440px;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link"><img class="card-img-top" src="uploads/miniatures/{{questionnaire.brochureFilename|replace({'pdf':'png'})}}" alt="First pdf image"></a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">{{questionnaire.name}}</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Version : {{questionnaire.version}}</li>
+                                <li class="list-group-item">Author : {{questionnaire.author}}</li>
+                                <li class="list-group-item">Device : {{questionnaire.device}}</li>
+                                <li class="list-group-item">Reviewed : {{questionnaire.isreviewed}}</li>
+                                {% if app.user %}
+                                    <button type="submit" class="btn btn-warning btn-block mb-3 mt-3"><a class="nav-link" href="{{path('app_editquestionnaire', {id:questionnaire.id})}}">Edit</a></button></td>
+                                    <button type="submit" class="btn btn-danger btn-block mb-3"><a class="nav-link" href="{{path('app_deletequestionnaire', {id:questionnaire.id})}}">Delete</a></button></td>
+                                {% endif %}
+                            </ul>
+                            <div class="card-body">
+                                <button type="button" class="btn btn-success"><a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" download>Download technical files</a></button>
+                            </div>
+                            <p class="card-text"><small class="text-muted">Last updated {{questionnaire.lastupdated|date ('d-m-Y')}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% elseif app.user%}
+    <p class="h1 mt-5 text-center">There's no questionnaires to show, <a href="{{path('app_addquestionnaire')}}" class="beTheFirstOne">be the first one !</a></p>
+{% else %}
+    <p class="h1 mt-5 text-center">There's no questionnaires to show !</p>
+{% endif %}
 {% endblock %}

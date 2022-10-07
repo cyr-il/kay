@@ -33,9 +33,6 @@ class Questionnaire
     #[ORM\Column(type: 'string')]
     private $brochureFilename;
 
-    #[ORM\Column]
-    private ?bool $reviewed = null;
-
     #[ORM\Column(length: 255)]
     private ?string $version = null;
 
@@ -47,6 +44,9 @@ class Questionnaire
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdated = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $isReviewed = null;
 
     public function getId(): ?int
     {
@@ -113,18 +113,6 @@ class Questionnaire
         return $this;
     }
 
-    public function isReviewed(): ?bool
-    {
-        return $this->reviewed;
-    }
-
-    public function setReviewed(bool $reviewed): self
-    {
-        $this->reviewed = $reviewed;
-
-        return $this;
-    }
-
     public function getBrochureFilename()
     {
         return $this->brochureFilename;
@@ -181,6 +169,18 @@ class Questionnaire
     public function setLastUpdated(\DateTimeInterface $lastUpdated): self
     {
         $this->lastUpdated = $lastUpdated;
+
+        return $this;
+    }
+
+    public function getIsReviewed(): ?string
+    {
+        return $this->isReviewed;
+    }
+
+    public function setIsReviewed(string $isReviewed): self
+    {
+        $this->isReviewed = $isReviewed;
 
         return $this;
     }
