@@ -22,7 +22,6 @@ class QuestionnaireController extends AbstractController
         $questionnaires = $QuestRepo->findAll();
 
         return $this->render('questionnaire/index.html.twig', [
-            'controller_name' => 'QuestionnaireController',
             'questionnaires' => $questionnaires
         ]);
     }
@@ -117,7 +116,5 @@ class QuestionnaireController extends AbstractController
         $this->addFlash('success', 'Your questionnaire has been updated with success !');
         return $this->redirectToRoute('app_questionnaire');
     }
-
-   
 }
 

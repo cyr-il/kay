@@ -54,13 +54,13 @@ class QuestionnaireRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function searchQuestByName($criteria): ?Questionnaire
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.name = :name')
-            ->setParameter('name', $criteria->getName())
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+//    public function findOneBySomeField($value): ?Questionnaire
+//    {
+//        return $this->createQueryBuilder('q')
+//            ->andWhere('q.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

@@ -11,19 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'app_search', methods:['GET','POST'])]
-    public function index(Request $request, QuestionnaireRepository $questRepo): Response
+    #[Route('/questionnaire/search', name: 'app_search')]
+    public function search(Request $request, QuestionnaireRepository $questRepo): Response
     {
-        $questionnaires = [];
-        $searchQuestionnaire = $this->createForm(SearchQuestionnaireType::class);
-        if ($searchQuestionnaire->handleRequest($request)->isSubmitted() && $searchQuestionnaire->isValid()){
-            $criteria = $searchQuestionnaire->getData();
-            $questionnaires = $questRepo->searchQuestByName($criteria);
+        $questionnaire = [];
+        $form = $this->createForm(SearchQuestionnaireType::class);
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()){
+            $criteria = $form->get('name')->getData();
+            $questionnaire = $questRepo->findOneBy((['name' => $criteria]));
         }
-        //dd($questionnaires);
+        //dd($questionnaire);
         return $this->render('search/index.html.twig', [
-            'search_form' => $searchQuestionnaire->createView(),
-            'questionnaires' => $questionnaires
+            'search_form' => $form->createView(),
+            'questionnaire' => $questionnaire
         ]);
     }
 }

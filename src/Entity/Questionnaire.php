@@ -6,6 +6,7 @@ use App\Repository\QuestionnaireRepository;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Form\FormTypeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: QuestionnaireRepository::class)]
 class Questionnaire

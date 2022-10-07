@@ -9,24 +9,22 @@
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
         </a>
-
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark">Forms list</a></li>
+            <li><a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark">Forms list</a></li>
+            <li><a class="nav-link px-2" href="{{path('app_search')}}" style="color:white">Search for a questionnaire</a></li>
            {% if app.user %}
             <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
             <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
             {% else %}
             <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
             {% endif %}
-
         </ul>
-
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
       </div>
     </div>
-  </header>
+</header>
 {% if questionnaires|length > 0 %}
 <div class="card-group">
     {% for questionnaire in questionnaires %}
