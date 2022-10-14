@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Classe\Search;
 use ConvertApi\ConvertApi;
 use App\Entity\Questionnaire;
 use App\Form\QuestionnaireFormType;
+use App\Form\SearchQuestionnaireType;
 use App\Repository\QuestionnaireRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,18 +18,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionnaireController extends AbstractController
 {
-    #[Route('/', name: 'app_questionnaire')]
-    public function index(QuestionnaireRepository $QuestRepo): Response
-    {
-        $questionnaires = $QuestRepo->findAll();
+    private $em;
 
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+    #[Route('/', name: 'app_questionnaire')]
+    public function index(Request $request): Response
+    {
+        $search = new Search;
+        $form = $this->createForm(SearchQuestionnaireType::class, $search);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $questionnaires = $this->em->getRepository(Questionnaire::class)->findWithSearch($search);
+        } else {
+            $questionnaires = $this->em->getRepository(Questionnaire::class)->findAll();
+        }
         return $this->render('questionnaire/index.html.twig', [
-            'questionnaires' => $questionnaires
+            'questionnaires' => $questionnaires,
+            'form' =>$form->createView(),
         ]);
     }
 
     #[Route('/addquestionnaire', name:'app_addquestionnaire')]
-    public function addQuestionnaire(EntityManagerInterface $em, Request $request, FileUploader $fileUploader): Response
+    public function addQuestionnaire(Request $request, FileUploader $fileUploader): Response
     {
         
         $questionnaire = new Questionnaire;
@@ -45,8 +62,8 @@ class QuestionnaireController extends AbstractController
             }
             //dd($brochureFileName);
             
-            $em->persist($questionnaire);
-            $em->flush();
+            $this->em->persist($questionnaire);
+            $this->em->flush();
             $this->addFlash('success', 'Your questionnaire has been added');
 
             ConvertApi::setApiSecret('v9r6tssV3eyARq1I');
@@ -71,9 +88,9 @@ class QuestionnaireController extends AbstractController
     }
 
     #[Route('/editquestionnaire/{id}', name:'app_editquestionnaire')]
-    public function editQuestionnaire(EntityManagerInterface $em, $id, Request $request, Questionnaire $questionnaire, FileUploader $fileUploader): Response
+    public function editQuestionnaire($id, Request $request, Questionnaire $questionnaire, FileUploader $fileUploader): Response
     {
-        $questionnaire = $em->getRepository(Questionnaire::class)->find($id);
+        $questionnaire = $this->em->getRepository(Questionnaire::class)->find($id);
         $form = $this->createForm(QuestionnaireFormType::class, $questionnaire);
         $form->handleRequest($request);
 
@@ -96,7 +113,7 @@ class QuestionnaireController extends AbstractController
                 );
                 $result->saveFiles('uploads/miniatures');
             }
-            $em->flush();
+            $this->em->flush();
             
             
             $this->addFlash('success', 'Your questionnaire has been updated with success !');
@@ -109,10 +126,10 @@ class QuestionnaireController extends AbstractController
     }
 
     #[Route('/deletequestionnaire/{id}', name:'app_deletequestionnaire')]
-    public function deleteQuestionnaire(EntityManagerInterface $em, $id): Response
+    public function deleteQuestionnaire($id): Response
     {
-        $em->remove($em->getRepository(Questionnaire::class)->find($id));
-        $em->flush();
+        $this->em->remove($this->em->getRepository(Questionnaire::class)->find($id));
+        $this->em->flush();
         $this->addFlash('success', 'Your questionnaire has been updated with success !');
         return $this->redirectToRoute('app_questionnaire');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Questionnaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,20 +40,21 @@ class QuestionnaireRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Questionnaire[] Returns an array of Questionnaire objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Questionnaire[] Returns an array of Questionnaire objects
+    */
+   public function findWithSearch(Search $search)
+   {
+    
+       return $this->createQueryBuilder('q')
+           ->where('q.name LIKE :search')
+           ->setParameter('search', '%'.$search.'%')
+           ->orderBy('q.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Questionnaire
 //    {

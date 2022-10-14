@@ -1,0 +1,15 @@
+<header class="p-3 mb-3 border-bottom"style="background-color:#029db3">
+    <div class="container" style="background-color:#029db3">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark"><h1>Forms Library</h1></a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            {% if app.user %}
+                <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
+                <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
+                {% else %}
+                <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</header>

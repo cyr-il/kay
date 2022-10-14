@@ -1,17 +1,38 @@
 .card {
     background-color: rgb(245, 234, 234);
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
     margin: 20px;
     padding: 20px;
 }
-a {
+/* a {
     text-decoration:none;
     color:white
-}
+} */
 
 #logout {
 
     color:green
 }
 
+body > div > div.col-md-9 > div.row > div > p > a
+{
+
+    color:rgb(17, 125, 226);
+    text-decoration: none
+}
+#dltechfiles{
+
+    color:white;
+    text-decoration: none
+}
+
+.list-group-item {
+
+    background-color: rgb(245, 234, 234);
+}
+
+#name {
+
+    font-style: italic;
+}

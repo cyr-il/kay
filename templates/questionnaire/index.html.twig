@@ -5,74 +5,79 @@
 {% block body %}
 <header class="p-3 mb-3 border-bottom"style="background-color:#029db3">
     <div class="container" style="background-color:#029db3">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark">Forms list</a></li>
-            <li><a class="nav-link px-2" href="{{path('app_search')}}" style="color:white">Search for a questionnaire</a></li>
-           {% if app.user %}
-            <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
-            <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
-            {% else %}
-            <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
-            {% endif %}
-        </ul>
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-      </div>
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark"><h1>Forms Library</h1></a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            {% if app.user %}
+                <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
+                <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
+                {% else %}
+                <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
+                {% endif %}
+            </ul>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            {{ form(form) }}</form>
+        </div>
     </div>
 </header>
-{% if questionnaires|length > 0 %}
-<div class="card-group">
-    {% for questionnaire in questionnaires %}
-    <div class="row">
-        <div class="col">
-            <div class="card mb-3" style="max-width: 440px;">
-                <div class="row">
-                    <div class="col-md-4">
-                        <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link"><img class="card-img-top" src="uploads/miniatures/{{questionnaire.brochureFilename|replace({'pdf':'png'})}}" alt="First pdf image"></a>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">{{questionnaire.name}}</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Version : {{questionnaire.version}}</li>
-                                <li class="list-group-item">Author : {{questionnaire.author}}</li>
-                                <li class="list-group-item">Device : {{questionnaire.device}}</li>
-                                <li class="list-group-item">Reviewed : {{questionnaire.isreviewed}}</li>
-                                {% if app.user %}
-                                    <button type="submit" class="btn btn-warning btn-block mb-3 mt-3"><a class="nav-link" href="{{path('app_editquestionnaire', {id:questionnaire.id})}}">Edit</a></button></td>
-                                    <button type="submit" class="btn btn-danger btn-block mb-3"><a class="nav-link" href="{{path('app_deletequestionnaire', {id:questionnaire.id})}}">Delete</a></button></td>
-                                {% endif %}
-                            </ul>
-                            <div class="card-body">
-                                <button type="button" class="btn btn-success"><a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" download>Download technical files</a></button>
-                                <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" data-bs-toggle="tooltip" data-bs-title="Download Design specs" data-bs-placement="bottom" download><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                width="48" height="48"
-                                viewBox="0 0 48 48"
-                                style=" fill:#000000;"><rect width="16" height="9" x="28" y="15" fill="#21a366"></rect><path fill="#185c37" d="M44,24H12v16c0,1.105,0.895,2,2,2h28c1.105,0,2-0.895,2-2V24z"></path><rect width="16" height="9" x="28" y="24" fill="#107c42"></rect><rect width="16" height="9" x="12" y="15" fill="#3fa071"></rect><path fill="#33c481" d="M42,6H28v9h16V8C44,6.895,43.105,6,42,6z"></path><path fill="#21a366" d="M14,6h14v9H12V8C12,6.895,12.895,6,14,6z"></path><path d="M22.319,13H12v24h10.319C24.352,37,26,35.352,26,33.319V16.681C26,14.648,24.352,13,22.319,13z" opacity=".05"></path><path d="M22.213,36H12V13.333h10.213c1.724,0,3.121,1.397,3.121,3.121v16.425	C25.333,34.603,23.936,36,22.213,36z" opacity=".07"></path><path d="M22.106,35H12V13.667h10.106c1.414,0,2.56,1.146,2.56,2.56V32.44C24.667,33.854,23.52,35,22.106,35z" opacity=".09"></path><linearGradient id="flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1" x1="4.725" x2="23.055" y1="14.725" y2="33.055" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18884f"></stop><stop offset="1" stop-color="#0b6731"></stop></linearGradient><path fill="url(#flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1)" d="M22,34H6c-1.105,0-2-0.895-2-2V16c0-1.105,0.895-2,2-2h16c1.105,0,2,0.895,2,2v16	C24,33.105,23.105,34,22,34z"></path><path fill="#fff" d="M9.807,19h2.386l1.936,3.754L16.175,19h2.229l-3.071,5l3.141,5h-2.351l-2.11-3.93L11.912,29H9.526	l3.193-5.018L9.807,19z"></path></svg></a>
-                                <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" data-bs-toggle="tooltip" data-bs-title="Download StoryBoard" data-bs-placement="right" download><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                width="48" height="48"
-                                viewBox="0 0 48 48"
-                                style=" fill:#000000;"><path fill="#FF8A65" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"></path><path fill="#FBE9E7" d="M24 29H38V31H24zM24 33H38V35H24zM30 15c-3.313 0-6 2.687-6 6s2.687 6 6 6 6-2.687 6-6h-6V15z"></path><path fill="#FBE9E7" d="M32,13v6h6C38,15.687,35.313,13,32,13z"></path><path fill="#E64A19" d="M27 42L6 38 6 10 27 6z"></path><path fill="#FFF" d="M16.828,17H12v14h3v-4.823h1.552c1.655,0,2.976-0.436,3.965-1.304c0.988-0.869,1.484-2.007,1.482-3.412C22,18.487,20.275,17,16.828,17z M16.294,23.785H15v-4.364h1.294c1.641,0,2.461,0.72,2.461,2.158C18.755,23.051,17.935,23.785,16.294,23.785z"></path></svg></a>
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-10">
+        {% if questionnaires|length > 0 %}
+        <div class="card-group">
+            {% for questionnaire in questionnaires %}
+            <div class="row">
+                <div class="col">
+                    <div class="card mb-3" style="max-width: 400px;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link"><img class="card-img-top" src="uploads/miniatures/{{questionnaire.brochureFilename|replace({'pdf':'png'})}}" alt="First pdf image"></a>
                             </div>
-                            <p class="card-text"><small class="text-muted">Last updated {{questionnaire.lastupdated|date ('d-m-Y')}}</small></p>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3" style="color:blue">{{questionnaire.name}}</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><b>Version :</b> {{questionnaire.version}}</li>
+                                        <li class="list-group-item"><b>Author :</b> {{questionnaire.author}}</li>
+                                        <li class="list-group-item"><b>Device :</b> {{questionnaire.device}}</li>
+                                        <li class="list-group-item"><b>Status :</b> {{questionnaire.isreviewed}}</li>
+                                        {% if app.user %}
+                                            <button type="submit" class="btn btn-warning btn-block mb-3 mt-3"><a class="nav-link" href="{{path('app_editquestionnaire', {id:questionnaire.id})}}">Edit</a></button></td>
+                                            <button type="submit" class="btn btn-danger btn-block mb-3"><a class="nav-link" href="{{path('app_deletequestionnaire', {id:questionnaire.id})}}">Delete</a></button></td>
+                                        {% endif %}
+                                    </ul>
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-success mb-3"><a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" id="dltechfiles" download>Download tech files</a></button>
+                                        <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" data-bs-toggle="tooltip" data-bs-title="Download Design specs" data-bs-placement="bottom" download><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                        width="48" height="48"
+                                        viewBox="0 0 48 48"
+                                        style=" fill:#000000;"><rect width="16" height="9" x="28" y="15" fill="#21a366"></rect><path fill="#185c37" d="M44,24H12v16c0,1.105,0.895,2,2,2h28c1.105,0,2-0.895,2-2V24z"></path><rect width="16" height="9" x="28" y="24" fill="#107c42"></rect><rect width="16" height="9" x="12" y="15" fill="#3fa071"></rect><path fill="#33c481" d="M42,6H28v9h16V8C44,6.895,43.105,6,42,6z"></path><path fill="#21a366" d="M14,6h14v9H12V8C12,6.895,12.895,6,14,6z"></path><path d="M22.319,13H12v24h10.319C24.352,37,26,35.352,26,33.319V16.681C26,14.648,24.352,13,22.319,13z" opacity=".05"></path><path d="M22.213,36H12V13.333h10.213c1.724,0,3.121,1.397,3.121,3.121v16.425	C25.333,34.603,23.936,36,22.213,36z" opacity=".07"></path><path d="M22.106,35H12V13.667h10.106c1.414,0,2.56,1.146,2.56,2.56V32.44C24.667,33.854,23.52,35,22.106,35z" opacity=".09"></path><linearGradient id="flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1" x1="4.725" x2="23.055" y1="14.725" y2="33.055" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18884f"></stop><stop offset="1" stop-color="#0b6731"></stop></linearGradient><path fill="url(#flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1)" d="M22,34H6c-1.105,0-2-0.895-2-2V16c0-1.105,0.895-2,2-2h16c1.105,0,2,0.895,2,2v16	C24,33.105,23.105,34,22,34z"></path><path fill="#fff" d="M9.807,19h2.386l1.936,3.754L16.175,19h2.229l-3.071,5l3.141,5h-2.351l-2.11-3.93L11.912,29H9.526	l3.193-5.018L9.807,19z"></path></svg></a>
+                                        <a href="{{ asset('uploads/brochures/' ~ questionnaire.brochureFilename) }}" class="card-link" data-bs-toggle="tooltip" data-bs-title="Download StoryBoard" data-bs-placement="right" download><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                        width="48" height="48"
+                                        viewBox="0 0 48 48"
+                                        style=" fill:#000000;"><path fill="#FF8A65" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"></path><path fill="#FBE9E7" d="M24 29H38V31H24zM24 33H38V35H24zM30 15c-3.313 0-6 2.687-6 6s2.687 6 6 6 6-2.687 6-6h-6V15z"></path><path fill="#FBE9E7" d="M32,13v6h6C38,15.687,35.313,13,32,13z"></path><path fill="#E64A19" d="M27 42L6 38 6 10 27 6z"></path><path fill="#FFF" d="M16.828,17H12v14h3v-4.823h1.552c1.655,0,2.976-0.436,3.965-1.304c0.988-0.869,1.484-2.007,1.482-3.412C22,18.487,20.275,17,16.828,17z M16.294,23.785H15v-4.364h1.294c1.641,0,2.461,0.72,2.461,2.158C18.755,23.051,17.935,23.785,16.294,23.785z"></path></svg></a>
+                                    </div>
+                                    <p class="card-text"><small class="text-muted">Last updated {{questionnaire.lastupdated|date ('d-m-Y')}}</small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
 </div>
 {% elseif app.user%}
-    <p class="h1 mt-5 text-center">There's no questionnaires to show, <a href="{{path('app_addquestionnaire')}}" class="beTheFirstOne">be the first one !</a></p>
-{% else %}
-    <p class="h1 mt-5 text-center">There's no questionnaires to show !</p>
-{% endif %}
+<div class="row">
+    <div class="col-md-8">
+    <p class="h1 mt-5 text-center">There's no questionnaires to show <a href="{{path('app_addquestionnaire')}}">be the first one !</a></p>
+    {% else %}
+        <p class="h1 mt-5 text-center">There's no questionnaires to show !</p>
+    {% endif %}
+    </div>
+</div>
 <script>
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl){ 

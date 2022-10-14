@@ -41,7 +41,7 @@ class QuestionnaireFormType extends AbstractType
                 )
             ))
             ->add('brochure', FileType::class, [
-                'label' => 'Brochure (PDF file)',
+                'label' => 'Screenshots (PDF file)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

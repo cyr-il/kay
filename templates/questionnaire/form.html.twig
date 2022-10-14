@@ -3,29 +3,9 @@
 {% block title %}Register{% endblock %}
 {% form_theme questionnaireForm 'bootstrap_5_layout.html.twig' %}
 {% block body %}
-<header class="p-3 mb-3 border-bottom"style="background-color:#029db3">
-    <div class="container" style="background-color:#029db3">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{{path('app_questionnaire')}}" class="nav-link px-5 link-dark">Forms list</a></li>
-           {% if app.user %}
-            <li><a class="nav-link px-2" href="{{path('app_logout')}}" style="color:white" id="logout">Logout</a></li>
-            <li><a class="nav-link px-2" href="{{path('app_addquestionnaire')}}" style="color:white" id="addquest">Add a questionnaire</a></li>
-            {% else %}
-            <li><a class="nav-link px-2 link-dark" href="{{path('app_login')}}">Login</a></li>
-            {% endif %}
-        </ul>
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-      </div>
-    </div>
-</header>
+{% include 'layout/_partial.html.twig' %}
 <div class="row">
-    <div class="col-md-6 mx-auto mt-5">
+    <div class="col-md-4 mx-auto mt-2">
         <h1 class="text-center my-5">Add a questionnaire</h1>
         {{ form_start(questionnaireForm) }}
             {{ form_row(questionnaireForm.name) }}
@@ -39,8 +19,8 @@
             {{ form_row(questionnaireForm.isreviewed) }}
             {{ form_row(questionnaireForm.brochure) }}
             <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+            <a href="{{path('app_questionnaire')}}"><button type="submit" class="btn btn-danger btn-block ms-3">Cancel</button></a>
         {{ form_end(questionnaireForm) }}
-            <a href="{{path('app_questionnaire')}}"><button type="submit" class="btn btn-danger btn-block">Cancel</button></a>
     </div>
 </div>
 {% endblock %}
