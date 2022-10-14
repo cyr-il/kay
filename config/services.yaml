@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
+    API_KEY: '%env(API_KEY)%'
 services:
     # default configuration for services in *this* file
     _defaults:

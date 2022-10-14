@@ -12,6 +12,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +24,11 @@ class QuestionnaireController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em, FlashyNotifier $flashy)
+    public function __construct(EntityManagerInterface $em, FlashyNotifier $flashy, ParameterBagInterface $params)
     {
         $this->em = $em;
         $this->flashy = $flashy;
+        $this->params = $params;
     }
 
     #[Route('/', name: 'app_questionnaire')]
@@ -50,7 +52,7 @@ class QuestionnaireController extends AbstractController
     #[Route('/addquestionnaire', name:'app_addquestionnaire')]
     public function addQuestionnaire(Request $request, FileUploader $fileUploader): Response
     {
-        
+        $apiSecret = $this->params->get('API_KEY');
         $questionnaire = new Questionnaire;
         $questionnaire->setLastUpdated(new \DateTime('now'));
         $form = $this->createForm(QuestionnaireFormType::class, $questionnaire);
@@ -70,7 +72,7 @@ class QuestionnaireController extends AbstractController
             $this->em->flush();
             $this->flashy->success('Your questionnaire has been added');
 
-            ConvertApi::setApiSecret('v9r6tssV3eyARq1I');
+            ConvertApi::setApiSecret($apiSecret);
             $result = ConvertApi::convert(
             'png',
             ['File' => 'uploads/brochures/'.$brochureFileName,
@@ -94,10 +96,8 @@ class QuestionnaireController extends AbstractController
     #[Route('/editquestionnaire/{id}', name:'app_editquestionnaire')]
     public function editQuestionnaire(int $id, Request $request, Questionnaire $questionnaire, FileUploader $fileUploader): Response
     {
-     
-        if(is_null($id)) {
-            throw $this->createNotFoundException('This id '.$id.' doesnt exist');
-        }
+
+        $apiSecret = $this->params->get('API_KEY');
         $questionnaire = $this->em->getRepository(Questionnaire::class)->find($id);
         $form = $this->createForm(QuestionnaireFormType::class, $questionnaire);
         $form->handleRequest($request);
