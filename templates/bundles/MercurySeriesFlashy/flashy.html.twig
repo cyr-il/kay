@@ -1,11 +1,12 @@
 {% for message in app.flashes('mercuryseries_flashy_notification') %}
     <script id="flashy-template" type="text/template">
         <div class="flashy flashy--{{ message.type }}">
-            <a class="flashy__body" href="#" target="_blank"></a>
+            <a class="flashy__body" href="#" target="_blank" style="text-decoration:none"></a>
+            <i class="material-icons">file_download_done</i>
         </div>
     </script>
 
     <script>
-        flashy("{{ message.message }}", "{{ message.link }}");
+        flashy("{{ message.message }}");
     </script>
 {% endfor %}

@@ -10,19 +10,23 @@ use App\Form\SearchQuestionnaireType;
 use App\Repository\QuestionnaireRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use function PHPUnit\Framework\throwException;
+
 class QuestionnaireController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, FlashyNotifier $flashy)
     {
         $this->em = $em;
+        $this->flashy = $flashy;
     }
 
     #[Route('/', name: 'app_questionnaire')]
@@ -64,7 +68,7 @@ class QuestionnaireController extends AbstractController
             
             $this->em->persist($questionnaire);
             $this->em->flush();
-            $this->addFlash('success', 'Your questionnaire has been added');
+            $this->flashy->success('Your questionnaire has been added');
 
             ConvertApi::setApiSecret('v9r6tssV3eyARq1I');
             $result = ConvertApi::convert(
@@ -88,8 +92,12 @@ class QuestionnaireController extends AbstractController
     }
 
     #[Route('/editquestionnaire/{id}', name:'app_editquestionnaire')]
-    public function editQuestionnaire($id, Request $request, Questionnaire $questionnaire, FileUploader $fileUploader): Response
+    public function editQuestionnaire(int $id, Request $request, Questionnaire $questionnaire, FileUploader $fileUploader): Response
     {
+     
+        if(is_null($id)) {
+            throw $this->createNotFoundException('This id '.$id.' doesnt exist');
+        }
         $questionnaire = $this->em->getRepository(Questionnaire::class)->find($id);
         $form = $this->createForm(QuestionnaireFormType::class, $questionnaire);
         $form->handleRequest($request);
@@ -114,9 +122,7 @@ class QuestionnaireController extends AbstractController
                 $result->saveFiles('uploads/miniatures');
             }
             $this->em->flush();
-            
-            
-            $this->addFlash('success', 'Your questionnaire has been updated with success !');
+            $this->flashy->success('Your questionnaire has been updated with success !');
             return $this->redirectToRoute('app_questionnaire');
         }
 
@@ -130,7 +136,7 @@ class QuestionnaireController extends AbstractController
     {
         $this->em->remove($this->em->getRepository(Questionnaire::class)->find($id));
         $this->em->flush();
-        $this->addFlash('success', 'Your questionnaire has been updated with success !');
+        $this->flashy->success('Your questionnaire has been deleted with success !');
         return $this->redirectToRoute('app_questionnaire');
     }
 }

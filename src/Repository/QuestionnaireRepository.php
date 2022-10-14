@@ -56,13 +56,8 @@ class QuestionnaireRepository extends ServiceEntityRepository
        ;
    }
 
-//    public function findOneBySomeField($value): ?Questionnaire
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findAll()
+   {
+        return $this->findBy(array(), array('name'=> 'ASC'));
+   }
 }

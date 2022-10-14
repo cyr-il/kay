@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+{% include 'layout/_partial.html.twig' %}
+<div class="container">
+    <h1>Sorry, the page you're looking for doesn't exist</h1>
+    <button type="button" class="btn btn-success me-3"><a href="{{ path('app_questionnaire') }}" style="color:white; text-decoration:none">Go back home</a></button>
+</div>
+{% endblock %}
