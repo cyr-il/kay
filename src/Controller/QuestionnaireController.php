@@ -138,5 +138,11 @@ class QuestionnaireController extends AbstractController
         $this->flashy->success('Your questionnaire has been deleted with success !');
         return $this->redirectToRoute('app_questionnaire');
     }
+
+    #[Route('/questionnaire/{id}', name:'app_detailquestionnaire')]
+    public function detailQuestionnaire(Questionnaire $questionnaire): Response
+    {
+        return $this->render('questionnaire/detail.html.twig', compact('questionnaire'));
+    }
 }
 
